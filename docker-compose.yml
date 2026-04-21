@@ -35,7 +35,7 @@ services:
     container_name: cotisations_nginx
     restart: always
     ports:
-      - "8080:80"
+      - "8081:80" 
     volumes:
       - ./app:/var/www/html
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
