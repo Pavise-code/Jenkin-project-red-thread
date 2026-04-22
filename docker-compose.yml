@@ -30,7 +30,9 @@ services:
       - cotisations_network
 
   nginx:
-    build: ./nginx  # <--- On build maintenant notre propre image Nginx
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
     container_name: cotisations_nginx
     restart: always
     ports:
