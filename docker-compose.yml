@@ -18,11 +18,11 @@ services:
       retries: 5
 
   php:
-    build: ./php
+    build:
+      context: .           # Le contexte est maintenant la racine du projet
+      dockerfile: ./php/Dockerfile  # Le chemin vers le fichier Dockerfile
     container_name: cotisations_php
     restart: always
-    volumes:
-      - ${WORKSPACE}/app:/var/www/html
     depends_on:
       db:
         condition: service_healthy
@@ -35,9 +35,6 @@ services:
     restart: always
     ports:
       - "8081:80" 
-    volumes:
-      - ${WORKSPACE}/app:/var/www/html
-      # On a supprimé la ligne ./nginx.conf car elle est maintenant "dans" l'image
     depends_on:
       - php
     networks:
