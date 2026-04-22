@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         COMPOSE_PROJECT_NAME = "cotisations-uai"
+        DOCKER_HOST = "unix:///var/run/docker.sock"
         COMPOSE_INTERACTIVE_NO_CLI = "1"
     }
 
@@ -11,7 +12,7 @@ pipeline {
             steps {
                 echo 'Nettoyage des anciens conteneurs pour repartir sur une base propre...'
                 // On s'assure que rien ne tourne déjà sur le port 8081
-                sh 'docker-compose down --remove-orphans'
+                sh '/usr/local/bin/docker-compose down --remove-orphans'
             }
         }
 
@@ -19,7 +20,7 @@ pipeline {
             steps {
                 echo 'Construction des images (PHP Custom)...'
                 // Construit l'image définie dans ton dossier ./php/Dockerfile
-                sh 'docker-compose build'
+                sh '/usr/local/bin/docker-compose build'
             }
         }
 
@@ -27,7 +28,7 @@ pipeline {
             steps {
                 echo 'Lancement du site de cotisations...'
                 // Lance les services (db, php, nginx) en arrière-plan (-d)
-                sh 'docker-compose up -d'
+                sh '/usr/local/bin/docker-compose up -d'
             }
         }
 
