@@ -34,7 +34,7 @@ pipeline {
         stage('Vérification') {
             steps {
                 echo 'Vérification du statut des services...'
-                sh 'docker ps --filter "name=cotisations_"'
+                sh '/usr/local/bin/docker-compose ps'
                 echo "Le site devrait être accessible sur : http://localhost:8081"
             }
         }
