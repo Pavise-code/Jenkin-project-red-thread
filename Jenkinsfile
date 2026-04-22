@@ -2,8 +2,9 @@ pipeline {
     agent any
 
     environment {
-        // On définit le nom du projet pour Docker Compose
         COMPOSE_PROJECT_NAME = "cotisations-uai"
+        DOCKER_API_VERSION = "1.41" 
+        COMPOSE_INTERACTIVE_NO_CLI = "1"
     }
 
     stages {
