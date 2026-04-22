@@ -22,7 +22,7 @@ services:
     container_name: cotisations_php
     restart: always
     volumes:
-      - ./app:/var/www/html
+      - ${WORKSPACE}/app:/var/www/html
     depends_on:
       db:
         condition: service_healthy
@@ -36,7 +36,7 @@ services:
     ports:
       - "8081:80" 
     volumes:
-      - ./app:/var/www/html
+      - ${WORKSPACE}/app:/var/www/html
       # On a supprimé la ligne ./nginx.conf car elle est maintenant "dans" l'image
     depends_on:
       - php
