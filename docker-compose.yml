@@ -1,5 +1,4 @@
 services:
-
   db:
     image: mysql:8.0
     container_name: cotisations_db
@@ -31,14 +30,14 @@ services:
       - cotisations_network
 
   nginx:
-    image: nginx:latest
+    build: ./nginx  # <--- On build maintenant notre propre image Nginx
     container_name: cotisations_nginx
     restart: always
     ports:
       - "8081:80" 
     volumes:
       - ./app:/var/www/html
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      # On a supprimé la ligne ./nginx.conf car elle est maintenant "dans" l'image
     depends_on:
       - php
     networks:
