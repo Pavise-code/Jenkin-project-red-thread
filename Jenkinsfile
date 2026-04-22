@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         COMPOSE_PROJECT_NAME = "cotisations-uai"
-        DOCKER_API_VERSION = "1.41" 
+        DOCKER_API_VERSION = "1.44" 
         COMPOSE_INTERACTIVE_NO_CLI = "1"
     }
 
