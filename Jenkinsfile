@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         COMPOSE_PROJECT_NAME = "cotisations-uai"
-        DOCKER_HOST = "unix:///var/run/docker.sock"
         COMPOSE_INTERACTIVE_NO_CLI = "1"
     }
 
