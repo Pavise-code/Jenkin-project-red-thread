@@ -7,23 +7,38 @@ if ($conn->connect_error) {
 
 $membres = $conn->query("SELECT Matricule, Nom, Prenom FROM Membre ORDER BY Nom");
 
-$mois = array("Janvier", "Février", "Mars", "Avril", "Mai", "Juin", 
+$mois_selectionne = array("Janvier", "Février", "Mars", "Avril", "Mai", "Juin", 
               "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre");
 
 $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date = $_POST['date'];
-    $mois = $_POST['mois'];
+    $mois_selectionne = $_POST['mois'];
     $motif = $_POST['motif'];
     $montant = $_POST['montant'];
     $matricule = $_POST['matricule'];
     
     $sql = "INSERT INTO Cotisation (DateCotis, Mois, Motif, Montant, Matricule) 
-            VALUES ('$date', '$mois', '$motif', '$montant', '$matricule')";
+            VALUES ('$date', '$mois_selectionne', '$motif', '$montant', '$matricule')";
     
     if ($conn->query($sql) === TRUE) {
         $message = "<div class='success'>✅ Cotisation ajoutée avec succès!</div>";
+        
+        // --- DÉBUT LOGIQUE NOTIFICATION ---
+        $to = "admin@unchk.sn"; // Mail fictif pour le test
+        $subject = "Notification : Nouvelle Cotisation reçue";
+        $body = "Une nouvelle cotisation a été enregistrée :\n\n" .
+                "Membre (Matricule) : $matricule\n" .
+                "Mois : $mois_selectionne\n" .
+                "Motif : $motif\n" .
+                "Montant : $montant FCFA\n" .
+                "Date : $date";
+        $headers = "From: systeme-espacemembre@unchk.sn";
+
+        // Envoi via MailHog
+        @mail($to, $subject, $body, $headers);
+        // --- FIN LOGIQUE NOTIFICATION ---
     } else {
         $message = "<div class='error'>❌ Erreur: " . $conn->error . "</div>";
     }
@@ -75,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label>Mois:</label>
                 <select name="mois" required>
                     <option value="">-- Choisir un mois --</option>
-                    <?php foreach($mois as $m): ?>
+                    <?php foreach($mois_selectionne as $m): ?>
                     <option value="<?php echo $m; ?>"><?php echo $m; ?></option>
                     <?php endforeach; ?>
                 </select>
