@@ -101,7 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <select name="motif" required>
                     <option value="">-- Choisir un motif --</option>
                     <option value="Inscription">Inscription</option>
-                    <option value="Mensualité">Mensualité</option>
+                    <option value="Mensualite">Mensualité</option>
                 </select>
             </div>
             

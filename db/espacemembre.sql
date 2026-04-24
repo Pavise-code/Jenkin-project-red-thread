@@ -13,7 +13,7 @@ CREATE TABLE Cotisation (
     NumCotis INT AUTO_INCREMENT PRIMARY KEY,
     DateCotis DATE NOT NULL,
     Mois VARCHAR(20) NOT NULL,
-    Motif ENUM('Inscription','Mensualité') NOT NULL,
+    Motif ENUM('Inscription','Mensualite') NOT NULL,
     Montant DECIMAL(10,2) NOT NULL,
     Matricule INT NOT NULL,
     FOREIGN KEY (Matricule) REFERENCES Membre(Matricule) ON DELETE CASCADE
