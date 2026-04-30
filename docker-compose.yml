@@ -17,7 +17,8 @@ services:
       test: ["CMD", "mysql", "-u", "root", "-prootpass", "-e", "SELECT 1 FROM Membre LIMIT 1;", "EspaceMembreDB"]
       interval: 5s   # On vérifie toutes les 5 secondes
       timeout: 5s
-      retries: 15    # On essaie 15 fois (soit 75 secondes max pour l'initialisation)
+      retries: 10
+      start_period: 60s   # On essaie 15 fois (soit 75 secondes max pour l'initialisation)
 
   php:
     build:
