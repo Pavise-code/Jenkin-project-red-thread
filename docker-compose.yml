@@ -12,20 +12,22 @@ services:
     networks:
       - cotisations_network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-prootpass"]
-      interval: 10s
+      # On teste si on peut faire un SELECT sur la table Membre. 
+      # Tant que l'importation du .sql n'est pas finie, cette commande échouera.
+      test: ["CMD", "mysql", "-u", "root", "-prootpass", "-e", "SELECT 1 FROM Membre LIMIT 1;", "EspaceMembreDB"]
+      interval: 5s   # On vérifie toutes les 5 secondes
       timeout: 5s
-      retries: 5
+      retries: 15    # On essaie 15 fois (soit 75 secondes max pour l'initialisation)
 
   php:
     build:
-      context: .           # Le contexte est maintenant la racine du projet
-      dockerfile: ./php/Dockerfile  # Le chemin vers le fichier Dockerfile
+      context: .
+      dockerfile: ./php/Dockerfile
     container_name: cotisations_php
     restart: always
     depends_on:
       db:
-        condition: service_healthy
+        condition: service_healthy # PHP attend que le test SELECT 1 de la DB réussisse
     networks:
       - cotisations_network
 
@@ -41,12 +43,13 @@ services:
       - php
     networks:
       - cotisations_network
+
   mailhog:
     image: mailhog/mailhog
     container_name: cotisations_mailhog
     ports:
-      - "1025:1025" # Port SMTP (pour l'envoi)
-      - "8025:8025" # Port Web UI (pour voir les mails)
+      - "1025:1025" 
+      - "8025:8025" 
     networks:
       - cotisations_network
       
@@ -56,5 +59,3 @@ networks:
 
 volumes:
   db_data:
-
- 
