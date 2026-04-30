@@ -13,9 +13,10 @@ services:
       - cotisations_network
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-prootpass"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      interval: 20s      # Attendre 20s entre chaque test
+      timeout: 10s       # Laisser 10s à MySQL pour répondre
+      retries: 10        # Essayer 10 fois (soit 200 secondes de battement !)
+      start_period: 60s  # Ignorer les échecs pendant la 1ère minute
 
   php:
     build:
